@@ -4,10 +4,16 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const User = require('./Models/User');
+const cors= require('cors')
 require('dotenv').config();
 require('./db/sqlMongoose');
 
 const app = express();
+app.use(cors({
+    credentials: true,
+    origin: process.env.PATHHEROKU || '*',
+    methods: ['GET', 'POST']
+}));
 
 // Configuración de la sesión
 app.use(session({
@@ -16,6 +22,8 @@ app.use(session({
     saveUninitialized: false,
     name: "secret-name-yolo", // Nombre personalizado para la cookie de la sesión
 }));
+
+app.set("trust proxy", 1); 
 
 app.use(flash());
 
