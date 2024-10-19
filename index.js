@@ -66,15 +66,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Rutas principales
-app.use('/auth', require('./Routes/authRoutes'));
-app.use('/', require('./Routes/homeRoutes'));
-
-
-// Archivos estáticos
+// Archivos estáticos primero
 app.use(express.static(__dirname + '/public'));
 
+// Rutas principales
+app.use('/', require('./Routes/homeRoutes'));   // Ruta para la raíz "/"
+app.use('/auth', require('./Routes/authRoutes')); // Ruta para "/auth"
+
 // Levantar el servidor
-const PORT = process.env.PORT || 3000; // Default por si falta la variable PORT
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Escuchando en el puerto http://localhost:${PORT}/auth/`);
+    console.log(`Servidor escuchando en http://localhost:${PORT}/`);  // Simplifica el mensaje
 });
+
